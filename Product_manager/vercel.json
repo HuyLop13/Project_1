@@ -10,13 +10,9 @@
   "routes": [
     {
       "src": "/(.*)",
-      "destination": "/"
+      "dest": "index.js"
     }
-  ],
-  
-    "rewrites": [
-      {"source": "/:a*", "destination": "/"}
-    ]
-  
+  ]
+
   
 }
