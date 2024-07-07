@@ -3,10 +3,9 @@ const router=express.Router();
 const controller=require("../../controller/admin/product.controller")
 const valid=require('../../Validates/admin/Validate.product')
 
+const uploadClound=require('../../middleware/upload.middleware')
 const multer  = require('multer')
-
-const storage=require('../../helper/uploadMulter')
-const upload = multer({ storage: storage() })
+const upload = multer()
 const app = express()
 
 router.get('/',controller.product)
@@ -30,6 +29,7 @@ router.get('/create',controller.create)
 // Create Post
 router.post('/create', 
     upload.single('thumbnail'),
+    uploadClound.upLoad,
     valid.createPost,
     controller.createPost)
 
@@ -42,6 +42,7 @@ router.get('/edit/:id',controller.edit)
 // Update Edit item 
 router.patch('/edit/:id',
     upload.single('thumbnail'),
+    uploadClound.upLoad,
     valid.createPost,
     controller.editPatch)
 // End Update Edit item
