@@ -94,7 +94,7 @@ module.exports.deleteItem= async(req, res)=>{
 //end Delete one item
 // Create
 module.exports.create=(req,res)=>{
-    res.render("admin/pages/dashboard/create",{
+    res.render("admin/pages/products/create",{
         titlePage:"Thêm mới sản phẩm"})
 }
 //End  Create
@@ -127,7 +127,7 @@ module.exports.edit=async (req,res)=>{
             _id:req.params.id
         }
         const product=await Product.findOne(find)
-        res.render("admin/pages/dashboard/edit",{
+        res.render("admin/pages/products/edit",{
             titlePage:"Chỉnh sửa sản phẩm",
             product:product    
         })
@@ -165,7 +165,7 @@ module.exports.detail=async (req,res)=>{
             _id:req.params.id
         }
         const product=await Product.findOne(find)
-        res.render("admin/pages/dashboard/detail",{
+        res.render("admin/pages/products/detail",{
             titlePage:product.title,
             product:product    
         })
