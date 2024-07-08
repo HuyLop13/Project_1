@@ -154,7 +154,7 @@ module.exports.editPatch=async (req,res)=>{
         req.flash('error', 'Cập nhật thất bại ');
         
     }
-    res.redirect(`back`)
+    res.redirect(`${systemConfig.prefixAdmin}/product`)
 }
 //End  Update Edit item
 // Detail item

@@ -13,6 +13,7 @@ const bodyParser = require('body-parser')
 const routerAdmin=require("./routers/admin/index.router");
 const router=require("./routers/clients/index.router");
 
+var path = require('path');
 
 database.connect();
 const app = express();
@@ -30,7 +31,9 @@ app.use(express.static(`${__dirname}/public`));
 app.locals.prefixAdmin=pathAdmin.prefixAdmin
 router(app);
 routerAdmin(app);
-
+// Tiny mce
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+// Tiny mce
 
 app.listen(port,()=>{
     console.log("OK");
