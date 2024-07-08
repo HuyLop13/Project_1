@@ -3,6 +3,7 @@ include ../../mixins/filterStatus.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/alert.pug
+include ../../mixins/sort.pug
 
 block main 
     +alertSuccess(4000)
@@ -10,13 +11,18 @@ block main
     h1 Danh Sách Sản Phẩm 
     .card.mb-3
         .card-header Bộ lọc và Tìm kiếm
-        .card-body
+            .card-body
                 .row
                     .col-6
                         +filterStatus(filterStatus) 
                     .col-6
                         +search(keyword)
-                         
+    .card.mb-3
+        .card-header Sắp xếp
+            .card-body
+                .row
+                    .col-2
+                      +sort()                   
     .card.mb-3
         .card-header Danh Sách Sản Phẩm
             .card-body
@@ -31,7 +37,7 @@ block main
                                 option(value='inactive') Dừng hoạt động
                                 option(value='delete-all') Xóa tất cả
                                 option(value='change-position') Thay đổi vị trí
-                            .custom-control.custom-checkbox.my-1.mr-sm-2
+                            
                                 input(
                                     class=" d-none"
                                     value=''

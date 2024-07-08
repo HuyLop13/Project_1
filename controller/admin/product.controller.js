@@ -3,6 +3,8 @@ const filterStatusHelper=require("../../helper/filterStatus")
 const searchHelper=require("../../helper/search")
 const paginationHelper=require("../../helper/pagination")
 const systemConfig=require("../../config/system")
+
+
 module.exports.product=async (req, res)=>{
     const filterStatus=filterStatusHelper(req.query);
     const search=searchHelper(req.query)
@@ -19,11 +21,20 @@ module.exports.product=async (req, res)=>{
     const pagination={limitItem:5, currentPage:1}
     const totalProducts=await Product.countDocuments(find)
     const paginations=paginationHelper(pagination,req.query,totalProducts)
-
+// Arrange
+    const sort={}
+    console.log(req.query)
+    if(req.query.sortKey && req.query.sortValue){
+        sort[req.query.sortKey]=req.query.sortValue
+    }else{
+        sort.position="desc"
+    }
+// End Arrange
     const products=await Product.find(find)
-                                .sort({position:"desc"})
+                                .sort(sort)
                                 .limit(pagination.limitItem)
                                 .skip(pagination.skip);
+
         res.render("admin/pages/products/index",{
             titlePage:"Trang san pham",
             products:products,
@@ -33,6 +44,7 @@ module.exports.product=async (req, res)=>{
 
     })
 };
+
 //Change Status
 module.exports.changeStatus= async(req, res)=>{
     const status=req.params.status

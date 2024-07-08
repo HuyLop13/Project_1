@@ -52,27 +52,39 @@ if(buttonPagination.length>0){
         })}
 
 
-// Preview img
-const previewInputFile=document.querySelector("[preview-input-file]")
-const previewInputImg=document.querySelector("[preview-input-img]")
-if(previewInputFile){
-    previewInputFile.addEventListener("change",(e)=>{
-        const file=e.target.files[0]
-        if(file){
-            previewInputImg.src = URL.createObjectURL(file)
+
+
+// Arrange
+const sort=document.querySelector("[sort]")
+if(sort){
+    const url =new URL(window.location.href)
+    const sortSelect=sort.querySelector('[sort-select]')
+    const sortClear=sort.querySelector('[sort-clear]')
+    sortSelect.addEventListener("change",(e)=>{
+        e.preventDefault()
+        const [sortKey,sortValue]=e.target.value.split("-")
+        if(sortKey && sortValue){
+            url.searchParams.set("sortKey",sortKey)
+            url.searchParams.set("sortValue",sortValue)
+        }else{
+            url.searchParams.delete("sortKey")
+            url.searchParams.delete("sortValue")
         }
-        const imageContainer=document.querySelector(".image-container")
-        imageContainer.classList.remove("d-none")
-        
+        window.location.href=url.href
     })
+    sortClear.addEventListener("click",()=>{
+        url.searchParams.delete("sortKey")
+        url.searchParams.delete("sortValue")
+        window.location.href=url.href
+
+    })
+    const sortkey=url.searchParams.get("sortKey")
+    const sortvalue=url.searchParams.get("sortValue")
+    const keyvalue=`${sortkey}-${sortvalue}`
+    if(sortkey&&sortvalue){
+        const selecte=sortSelect.querySelector(`option[value='${keyvalue}']`)
+        selecte.setAttribute('selected',"true")
+    }
+
 }
-//End  Preview img
-// close img
-const closeImg=document.querySelector(".close-img")
-closeImg.addEventListener("click",()=>{
-    previewInputImg.src=""
-    previewInputFile.value=""
-    const imageContainer=document.querySelector(".image-container")
-    imageContainer.classList.add("d-none")
-})
-//end close img
+//End Arrange
