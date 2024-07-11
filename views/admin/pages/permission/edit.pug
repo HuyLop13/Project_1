@@ -1,0 +1,36 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main 
+    +alertError(4000)
+    +alertSuccess(4000)
+
+    h1(class="mb-4") Chỉnh sửa
+    form(
+        action=`${prefixAdmin}/permission/edit/${permission.id}?_method=PATCH`
+        id="form-create-permission"
+        method="POST")
+        div(class="form-group")
+            label(for="title") Tiêu đề
+            input(
+                type="text"
+                class="form-control" 
+                id="title"
+                name="title"
+                value=permission.title
+                )
+        div(class="form-group")
+            label(for="desc") Mô tả
+            textarea(
+                class="form-control"
+                id="description"
+                name="description"
+                rows="5"
+                
+                ) #{permission.description}
+        div(class="form-group")
+            button(
+                type="submit"
+                class="btn btn-primary"
+                ) Cập nhật
+        

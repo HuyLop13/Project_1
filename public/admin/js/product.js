@@ -97,10 +97,8 @@ deleteItem.forEach(item=>{
         const isConfirm=confirm("Ban co chac chan muon xoa khong ?")
         if(isConfirm){
             const deleteId=item.getAttribute("value")
-            console.log(deleteId)
             const action=formDelete.getAttribute("data-path")+`/${deleteId}?_method=DELETE`
-            console.log(action)
-            formDelete.action=action    
+            formDelete.setAttribute("action",action)  
             formDelete.submit()
         }
     })

@@ -23,7 +23,6 @@ module.exports.product=async (req, res)=>{
     const paginations=paginationHelper(pagination,req.query,totalProducts)
 // Arrange
     const sort={}
-    console.log(req.query)
     if(req.query.sortKey && req.query.sortValue){
         sort[req.query.sortKey]=req.query.sortValue
     }else{

@@ -93,7 +93,6 @@ const previewInputImg=document.querySelector("[preview-input-img]")
 if(previewInputFile){
     previewInputFile.addEventListener("change",(e)=>{
         const file=e.target.files[0]
-        console.log(file)
         if(file){
             previewInputImg.src = URL.createObjectURL(file)
         }
