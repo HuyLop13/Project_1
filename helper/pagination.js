@@ -1,3 +1,4 @@
+
 module.exports=(pagination,query,totalProducts)=>{
     if(isNaN(query.page)==false){pagination.currentPage=parseInt(query.page)}
     else{pagination.currentPage=1}

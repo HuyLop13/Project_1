@@ -1,0 +1,5 @@
+mixin selectTree(items,level=1)
+    each item in items 
+        option(value=`${item.id}`) #{Array(level+1).join("--")}#{item.title} 
+            if item.children
+                +selectTree(item.children,level+1)

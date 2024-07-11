@@ -32,6 +32,8 @@ checkBoxAll.addEventListener("click",()=>{
         })
     }
 })
+
+
 checkBoxMulti.forEach(box=>{
     box.addEventListener("click",()=>{
         const countCheckBox=document.querySelectorAll('input[name="check-multi"]:checked').length
@@ -40,6 +42,7 @@ checkBoxMulti.forEach(box=>{
         }else{
             checkBoxAll.checked=false
         }
+        
     })
 
 })
@@ -73,7 +76,13 @@ if(formChangeMulti){
             }
         })
         inputId.value=ids.join(",")
+        const countChecked=document.querySelectorAll('input[name="check-multi"]:checked').length
+        if(countChecked<1){
+            confirm("Bạn chưa chọn mục nào .Hãy chọn ít nhất 1 mục")
+            return;
+        }else{
         formChangeMulti.submit()
+        }
     })
 }
 
@@ -87,8 +96,10 @@ deleteItem.forEach(item=>{
     item.addEventListener("click",()=>{
         const isConfirm=confirm("Ban co chac chan muon xoa khong ?")
         if(isConfirm){
-            const deleteId=item.value
+            const deleteId=item.getAttribute("value")
+            console.log(deleteId)
             const action=formDelete.getAttribute("data-path")+`/${deleteId}?_method=DELETE`
+            console.log(action)
             formDelete.action=action    
             formDelete.submit()
         }
@@ -113,27 +124,5 @@ if(alerts){
 }
 // end Show alert
 
-// Preview img
-const previewInputFile=document.querySelector("[preview-input-file]")
-const previewInputImg=document.querySelector("[preview-input-img]")
-if(previewInputFile){
-    previewInputFile.addEventListener("change",(e)=>{
-        const file=e.target.files[0]
-        if(file){
-            previewInputImg.src = URL.createObjectURL(file)
-        }
-        const imageContainer=document.querySelector(".image-container")
-        imageContainer.classList.remove("d-none")
-        
-    })
-}
-//End  Preview img
-// close img
-const closeImg=document.querySelector(".close-img")
-closeImg.addEventListener("click",()=>{
-    previewInputImg.src=""
-    previewInputFile.value=""
-    const imageContainer=document.querySelector(".image-container")
-    imageContainer.classList.add("d-none")
-})
-//end close img
+
+
