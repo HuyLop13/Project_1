@@ -4,13 +4,13 @@ include ../../mixins/alert.pug
 block main 
     +alertError(4000)
     +alertSuccess(4000)
-    h1 Phân Quyền
+    h1 Nhóm Quyền
     .card.mb-3
         .card-header 
             .card-body
                 .row 
                     .col-2
-                        a(class="btn btn-outline-success" href=`${prefixAdmin}/permission/create`
+                        a(class="btn btn-outline-success" href=`${prefixAdmin}/role/create`
                         ) + Thêm mới
     .card.mb-3
         .card-header Danh Sách Quyền
@@ -24,7 +24,7 @@ block main
                             th Nhóm quyền
                             th Mô tả quyền
                             th Hành động
-                        each item,index in permission
+                        each item,index in role
                             tr 
                                 th 
                                     input(class="" type="checkbox", name="check-multi",value=item.id)
@@ -33,17 +33,17 @@ block main
                                 td #{item.description}              
                                 td 
                                     a(      class='btn btn-warning btn-sm'
-                                            href=`${prefixAdmin}/permission/edit/${item.id}`
+                                            href=`${prefixAdmin}/role/edit/${item.id}`
                                             ) Sửa 
                                     a(      class='btn btn-danger btn-sm ml-1'
                                             delete-item
                                             value=item.id
                                             ) Xóa  
                                     a(      class='btn btn-info btn-sm ml-1'
-                                            href=`${prefixAdmin}/permission/detail/${item.id}`
+                                            href=`${prefixAdmin}/role/detail/${item.id}`
                                             ) Chi tiết
 
         form(   id="delete-item" ,
             action="" ,
             method="POST",
-            data-path=`${prefixAdmin}/permission/delete`) 
+            data-path=`${prefixAdmin}/role/delete`) 

@@ -1,13 +1,16 @@
 const express = require('express');
 const router=express.Router();
-const controller=require("../../controller/admin/permission.controller")
+const controller=require("../../controller/admin/role.controller")
 const valid=require('../../Validates/admin/Validate.product')
-const uploadClound=require('../../middleware/upload.middleware')
-const multer  = require('multer')
-const upload = multer()
 
+router.get('/',controller.role)
 
-router.get('/',controller.permission)
+// Permission
+router.get('/permission',controller.permission)
+// End Permission
+// Permission Patch
+router.patch('/permission',controller.permissionPatch)
+// End Permission Patch
 
 // Create
 router.get('/create',controller.create)
@@ -19,16 +22,16 @@ router.post('/create',
     controller.createPost)
 // end Post create
 
-// Detail permission
+// Detail role
 router.get("/detail/:id",controller.detail)
-//End Detail permission
+//End Detail role
 
-// Edit permission
+// Edit role
 router.get("/edit/:id",controller.edit)
-// Edit permission
-// Edit Post permission
+// Edit role
+// Edit Post role
 router.patch("/edit/:id",controller.editPost)
-// Edit post permission
+// Edit post role
 // Delete item
 router.delete('/delete/:id',controller.delete)
 // End Delete item

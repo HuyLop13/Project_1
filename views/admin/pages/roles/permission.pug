@@ -1,0 +1,58 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main 
+    +alertError(4000)
+    +alertSuccess(4000)
+    h1 Phân Quyền
+    -if(permission)
+        div(name="data-permission" value=permission)
+        div(class="form-group text-right")
+            button(
+                type="submit"
+                class="btn btn-primary"
+                button-submit
+                ) Cập nhật
+    .card.mb-3
+        table(class="table table-hover table-sm"
+                table-permission  )
+            thead
+                tr
+                    th Tính năng
+                    each item in permission
+                        th(class="text-center") #{item.title}
+            tbody
+                tr(data-name="id" class="d-none")
+                    th 
+                    each item in permission
+                        th(class="text-center") 
+                            input(type="text" value=item.id)
+                tr
+                    td(colspan="4")
+                        b Danh mục sản phẩm
+                tr(data-name="products-category_view")
+                    td Xem
+                    each item in permission
+                        td(class="text-center")
+                            input(type="checkbox")
+                tr(data-name="products-category_create")
+                    td Thêm mới
+                    each item in permission
+                        td(class="text-center")
+                            input(type="checkbox")
+                tr(data-name="products-category_edit")
+                    td Chỉnh sửa
+                    each item in permission
+                        td(class="text-center")
+                            input(type="checkbox")
+                tr(data-name="products-category_delete")
+                    td Xóa
+                    each item in permission
+                        td(class="text-center")
+                            input(type="checkbox")
+    form(   id="form-role-permission" ,
+            action=`${prefixAdmin}/role/permission?_method=PATCH` ,
+            method="POST") 
+            input(type="text", name="permission" class="d-none" )
+
+    script(type="module", src="/admin/js/role.js") 

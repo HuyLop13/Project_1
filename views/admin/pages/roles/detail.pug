@@ -1,0 +1,14 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main 
+    +alertError(4000)
+    +alertSuccess(4000)
+    if (role.title) 
+        h1(class="mb-4") #{role.title}
+    if (role.description)
+        div(class="mb-4") #{role.description}
+
+    a(class='btn btn-warning btn-sm'
+        href=`${prefixAdmin}/role/edit/${role.id}`
+        ) Chỉnh sửa

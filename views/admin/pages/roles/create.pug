@@ -5,10 +5,10 @@ block main
     +alertError(4000)
     +alertSuccess(4000)
 
-    h1(class="mb-4") Chỉnh sửa
+    h1(class="mb-4") Thêm mới quyền
     form(
-        action=`${prefixAdmin}/permission/edit/${permission.id}?_method=PATCH`
-        id="form-create-permission"
+        action=`${prefixAdmin}/role/create`
+        id="form-create-role"
         method="POST")
         div(class="form-group")
             label(for="title") Tiêu đề
@@ -17,7 +17,6 @@ block main
                 class="form-control" 
                 id="title"
                 name="title"
-                value=permission.title
                 )
         div(class="form-group")
             label(for="desc") Mô tả
@@ -26,11 +25,10 @@ block main
                 id="description"
                 name="description"
                 rows="5"
-                
-                ) #{permission.description}
+                )
         div(class="form-group")
             button(
                 type="submit"
                 class="btn btn-primary"
-                ) Cập nhật
+                ) Tạo mới
         
