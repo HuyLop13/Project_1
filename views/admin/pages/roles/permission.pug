@@ -50,6 +50,56 @@ block main
                     each item in permission
                         td(class="text-center")
                             input(type="checkbox")
+
+                tr
+                    td(colspan="4")
+                        b Sản phẩm
+                tr(data-name="products-view")
+                    td Xem
+                    each item in permission
+                        td(class="text-center")
+                            input(type="checkbox")
+                tr(data-name="products-create")
+                    td Thêm mới
+                    each item in permission
+                        td(class="text-center")
+                            input(type="checkbox")
+                tr(data-name="products-edit")
+                    td Chỉnh sửa
+                    each item in permission
+                        td(class="text-center")
+                            input(type="checkbox")
+                tr(data-name="products-delete")
+                    td Xóa
+                    each item in permission
+                        td(class="text-center")
+                            input(type="checkbox")
+            
+                tr
+                    td(colspan="4")
+                        b Nhóm quyền
+                tr(data-name="role-view")
+                    td Xem
+                    each item in permission
+                        td(class="text-center")
+                            input(type="checkbox")
+                tr(data-name="role-create")
+                    td Thêm mới
+                    each item in permission
+                        td(class="text-center")
+                            input(type="checkbox")
+                tr(data-name="role-edit")
+                    td Chỉnh sửa
+                    each item in permission
+                        td(class="text-center")
+                            input(type="checkbox")
+                tr(data-name="role-delete")
+                    td Xóa
+                    each item in permission
+                        td(class="text-center")
+                            input(type="checkbox")
+
+
     form(   id="form-role-permission" ,
             action=`${prefixAdmin}/role/permission?_method=PATCH` ,
             method="POST") 
