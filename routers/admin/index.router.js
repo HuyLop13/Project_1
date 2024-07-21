@@ -3,10 +3,27 @@ const productRouter=require("./products.router")
 const product_categoryRouter=require('./product-category.router')
 const pathAdmin=require("../../config/system")
 const role=require("./role.router")
+const account=require("./account.router")
+const auth=require("./auth.router")
+
+const authMiddleWare=require('../../middleware/auth.middleware')
 
 module.exports=(app)=>{
-        app.use(pathAdmin.prefixAdmin + "/dashboard",dashboardRouter)
-        app.use(pathAdmin.prefixAdmin + "/product",productRouter)
-        app.use(pathAdmin.prefixAdmin + "/product-category",product_categoryRouter)
-        app.use(pathAdmin.prefixAdmin + "/role",role)
+        app.use(pathAdmin.prefixAdmin + "/dashboard",
+            authMiddleWare.requiredAuth,
+            dashboardRouter)
+        app.use(pathAdmin.prefixAdmin + "/product",
+            authMiddleWare.requiredAuth,
+            productRouter)
+        app.use(pathAdmin.prefixAdmin + "/product-category",
+            authMiddleWare.requiredAuth,
+            product_categoryRouter)
+        app.use(pathAdmin.prefixAdmin + "/role",
+            authMiddleWare.requiredAuth,
+            role)
+        app.use(pathAdmin.prefixAdmin + "/account",
+            authMiddleWare.requiredAuth,
+            account)
+        app.use(pathAdmin.prefixAdmin + "/auth",
+            auth)
     }

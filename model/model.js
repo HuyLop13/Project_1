@@ -18,7 +18,22 @@ const mongooseSchema =new mongoose.Schema({
     deleted:{type:Boolean,default:false},
     thumbnail:String,
     status:String,
-    
+    createdBy:{
+        account_id:String,
+        createAt:{
+            type:Date,
+            default:Date.now
+        }
+    },
+    deletedBy:{
+        account_id:String,
+        deleteAt:Date
+    },
+    editedBy:[{
+        account_id:String,
+        editAt:Date
+    },
+    ]
     
 },{timestamps: true})
 const Product=mongoose.model("Product",mongooseSchema,'Product')//Product t2 là tên file trong mongodb 

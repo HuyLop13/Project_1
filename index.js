@@ -2,6 +2,9 @@ const express = require('express');
 const dotenv = require('dotenv').config()
 const database=require("./config/database")
 const pathAdmin=require('./config/system')
+// Moment date
+const moment=require('moment')
+// Moment
 
 const flash = require('express-flash')
 const cookieParser = require('cookie-parser')
@@ -29,6 +32,9 @@ app.set('view engine', 'pug');
 app.set('views', `${__dirname}/views`);
 app.use(express.static(`${__dirname}/public`));
 app.locals.prefixAdmin=pathAdmin.prefixAdmin
+// Moment date
+app.locals.moment=moment
+
 router(app);
 routerAdmin(app);
 // Tiny mce

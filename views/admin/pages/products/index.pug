@@ -27,27 +27,29 @@ block main
         .card-header Danh Sách Sản Phẩm
             .card-body
                 .row 
-                    .col-3
-                        form(method="POST"
-                            action=`${prefixAdmin}/product/change-multi-status?_method=PATCH`
-                            form-change-multi
-                            class="form-inline")
-                            select(id="inlineFormCustomSelectPref" class="custom-select my-1 mr-sm-2" name="status")
-                                option(value='active') Hoạt động
-                                option(value='inactive') Dừng hoạt động
-                                option(value='delete-all') Xóa tất cả
-                                option(value='change-position') Thay đổi vị trí
-                            
-                                input(
-                                    class=" d-none"
-                                    value=''
-                                    type='text'
-                                    name='ids'
-                                )
-                            button.btn.btn-primary.my-1(type='submit') Cập nhật 
-                    .col-2
-                        a(class="btn btn-outline-success" href=`${prefixAdmin}/product/create`
-                        ) + Thêm mới
+                    if(role.permissions.includes("products-edit"))
+                        .col-3
+                            form(method="POST"
+                                action=`${prefixAdmin}/product/change-multi-status?_method=PATCH`
+                                form-change-multi
+                                class="form-inline")
+                                select(id="inlineFormCustomSelectPref" class="custom-select my-1 mr-sm-2" name="status")
+                                    option(value='active') Hoạt động
+                                    option(value='inactive') Dừng hoạt động
+                                    option(value='delete-all') Xóa tất cả
+                                    option(value='change-position') Thay đổi vị trí
+                                
+                                    input(
+                                        class=" d-none"
+                                        value=''
+                                        type='text'
+                                        name='ids'
+                                    )
+                                button.btn.btn-primary.my-1(type='submit') Cập nhật 
+                    if(role.permissions.includes("products-create"))
+                        .col-2
+                            a(class="btn btn-outline-success" href=`${prefixAdmin}/product/create`
+                            ) + Thêm mới
 
                 table.table.table-hover.table-sm
                     thead
@@ -60,6 +62,7 @@ block main
                             th Giá
                             th Vị trí
                             th Trạng thái
+                            th Người tạo
                             th Hành động
                         each item,index in products
                             tr 
@@ -79,27 +82,42 @@ block main
                                             name='position'
                                             )
                                 td
-                                    if(item.status=="active")
-                                        a(href="javascript:;"
-                                        data-status=item.status 
-                                        data-id=item._id 
-                                        button-change-status
-                                        class="badge badge-success") Hoạt Động
-                                    else
-                                        a(href="javascript:;"
-                                        data-status=item.status 
-                                        data-id=item._id
-                                        button-change-status 
-                                        class="badge badge-danger") Không Hoạt Động
+                                    if(role.permissions.includes("products-edit"))
+                                        if(item.status=="active")
+                                            a(href="javascript:;"
+                                            data-status=item.status 
+                                            data-id=item._id 
+                                            button-change-status
+                                            class="badge badge-success") Hoạt Động
+                                        else
+                                            a(href="javascript:;"
+                                            data-status=item.status 
+                                            data-id=item._id
+                                            button-change-status 
+                                            class="badge badge-danger") Không Hoạt Động
+                                    else 
+                                        if(item.status=="active")
+                                            a(href=""
+                                            class="badge badge-success") Hoạt Động
+                                        else
+                                            a(href=""
+                                            class="badge badge-danger") Không Hoạt Động
+
                                 
                                 td 
-                                    a(class='btn btn-warning btn-sm'
-                                        href=`${prefixAdmin}/product/edit/${item.id}`
-                                        ) Sửa 
-                                    a(class='btn btn-danger btn-sm ml-1'
-                                            delete-item
-                                            value=item.id
-                                            ) Xóa  
+                                    p #{item.userName}
+                                    p #{moment(item.createdBy.createAt).format('L')}
+                                    p #{moment(item.createdBy.createAt).startOf('hour').fromNow()}
+                                td 
+                                    if(role.permissions.includes("products-edit"))
+                                        a(class='btn btn-warning btn-sm'
+                                            href=`${prefixAdmin}/product/edit/${item.id}`
+                                            ) Sửa 
+                                    if(role.permissions.includes("products-delete"))
+                                        a(class='btn btn-danger btn-sm ml-1'
+                                                delete-item
+                                                value=item.id
+                                                ) Xóa  
                                     a(class='btn btn-info btn-sm ml-1'
                                         href=`${prefixAdmin}/product/detail/${item.id}`
                                         ) Chi tiết

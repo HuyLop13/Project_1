@@ -1,0 +1,33 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main 
+    +alertError(4000)
+    +alertSuccess(4000)
+    if (account.fullname) 
+        h1(class="mb-4") #{account.fullname}
+
+    if (account.email) 
+        div(class="mb-4") Email: #{account.email}
+
+    if (account.phone) 
+        div(class="mb-4") Số điện thoại: #{account.phone}
+
+    if (account.avatar)
+    div(class="mb-4") 
+        img( src=account.avatar style="width: 100px" )
+
+    if (account.status)
+        div(class="mb-4") 
+            span Trạng thái: 
+            -if (account.status === "active")
+                span(class="badge badge-success") Hoạt động
+            -else
+                span(class="badge badge-danger") Dừng hoạt động
+
+    if (role)
+        div(class="mb-4") Phân quyền: #{role.title}
+
+    a(class='btn btn-warning btn-sm'
+        href=`${prefixAdmin}/account/edit/${account.id}`
+        ) Chỉnh sửa

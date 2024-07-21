@@ -1,3 +1,6 @@
+
+// end Show alert
+
 //change-status
 const buttonChange=document.querySelectorAll('[button-change-status]')
 if(buttonChange.length>0){
@@ -17,6 +20,11 @@ if(buttonChange.length>0){
     })
 }
 //end Change Status
+
+
+
+
+
 
 //Check box
 const checkBoxAll=document.querySelector('input[name="check-all"]')
@@ -88,9 +96,46 @@ if(formChangeMulti){
 
 // end Change multi status
 
+// Arrange
+const sort=document.querySelector("[sort]")
+if(sort){
+    const url =new URL(window.location.href)
+    const sortSelect=sort.querySelector('[sort-select]')
+    const sortClear=sort.querySelector('[sort-clear]')
+    sortSelect.addEventListener("change",(e)=>{
+        e.preventDefault()
+        const [sortKey,sortValue]=e.target.value.split("-")
+        if(sortKey && sortValue){
+            url.searchParams.set("sortKey",sortKey)
+            url.searchParams.set("sortValue",sortValue)
+        }else{
+            url.searchParams.delete("sortKey")
+            url.searchParams.delete("sortValue")
+        }
+        window.location.href=url.href
+    })
+    sortClear.addEventListener("click",()=>{
+        url.searchParams.delete("sortKey")
+        url.searchParams.delete("sortValue")
+        window.location.href=url.href
+
+    })
+    const sortkey=url.searchParams.get("sortKey")
+    const sortvalue=url.searchParams.get("sortValue")
+    const keyvalue=`${sortkey}-${sortvalue}`
+    if(sortkey&&sortvalue){
+        const selecte=sortSelect.querySelector(`option[value='${keyvalue}']`)
+        selecte.setAttribute('selected',"true")
+    }
+
+}
+//End Arrange
+
+
 // Delete one Item
 
 const deleteItem=document.querySelectorAll("[delete-item]")
+console.log(deleteItem)
 const formDelete=document.querySelector('#delete-item')
 deleteItem.forEach(item=>{
     item.addEventListener("click",()=>{
@@ -120,7 +165,5 @@ if(alerts){
     })
 
 }
-// end Show alert
-
 
 

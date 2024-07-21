@@ -3,7 +3,7 @@ const filterStatusHelper=require("../../helper/filterStatus")
 const searchHelper=require("../../helper/search")
 const paginationHelper=require("../../helper/pagination")
 const systemConfig=require("../../config/system")
-
+const Account=require('../../model/account.model')
 
 module.exports.product=async (req, res)=>{
     const filterStatus=filterStatusHelper(req.query);
@@ -33,14 +33,18 @@ module.exports.product=async (req, res)=>{
                                 .sort(sort)
                                 .limit(pagination.limitItem)
                                 .skip(pagination.skip);
-
+    for (const product of products){
+        const account=await Account.findOne({_id:product.createdBy.account_id})
+        if(account){
+            product.userName=account.fullname
+        }   
+    }
         res.render("admin/pages/products/index",{
             titlePage:"Trang san pham",
             products:products,
             filterStatus:filterStatus,
             keyword:search.keyword,
-            pagination:paginations
-
+            pagination:paginations,
     })
 };
 
@@ -67,7 +71,11 @@ module.exports.changeMultiStatus=async(req, res)=>{
             await Product.updateMany({ _id: { $in: ids } },{status:status})
             break;
         case "delete-all":
-            await Product.updateMany({ _id: { $in: ids } },{deleted:true})
+            req.body.deletedBy={
+                account_id:res.locals.user.id,
+                deleteAt: new Date()
+            }
+            await Product.updateMany({ _id: { $in: ids } },{deleted:true,deletedBy:req.body.deletedBy})
             break;
         case "change-position":
             for(const item of ids){
@@ -87,7 +95,12 @@ module.exports.changeMultiStatus=async(req, res)=>{
 //Delete one item
 module.exports.deleteItem= async(req, res)=>{
     const id=req.params.id
-    await Product.updateOne({_id:id},{deleted:true})
+    
+    req.body.deletedBy={
+        account_id:res.locals.user.id,
+        deleteAt: new Date()
+    }
+    await Product.updateOne({_id:id},{deleted:true,deletedBy:req.body.deletedBy})
     res.redirect('back')
 }
 //end Delete one item
@@ -103,8 +116,10 @@ module.exports.createPost=async(req,res)=>{
     req.body.price=parseInt(req.body.price)
     req.body.discountPercentage=parseInt(req.body.discountPercentage)
     req.body.stock=parseInt(req.body.stock)
+    req.body.createdBy={
+        account_id:res.locals.user.id
+    }
 
-    
     if(req.body.position==''){
        const count= await Product.countDocuments()
        req.body.position=count+1
@@ -146,8 +161,13 @@ module.exports.editPatch=async (req,res)=>{
         req.body.thumbnail=`/uploads/${req.file.filename}`
     } 
     req.body.position=parseInt(req.body.position)
+
+    const editedBy={
+        account_id:res.locals.user.id,
+        editAt:new Date()
+    }
     try {  
-        await Product.updateOne({_id:id},req.body)
+        await Product.updateOne({_id:id},{...req.body,$push:{editedBy:editedBy}})
         req.flash('success', 'Cập nhật thành công ');
     }catch(error) {
         req.flash('error', 'Cập nhật thất bại ');
