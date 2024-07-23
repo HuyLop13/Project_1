@@ -1,7 +1,6 @@
 const systemConfig=require('../../../config/system')
 
 
-
 const buttonStatus=document.querySelectorAll('[button-status]')
 // click button lay ra url 
 if(buttonStatus.length>0){
@@ -37,6 +36,7 @@ if(formSearch){
 
 }
 
+//Pagination
 const buttonPagination=document.querySelectorAll('.page-link')
 // click button lay ra url 
 if(buttonPagination.length>0){

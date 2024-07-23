@@ -5,6 +5,7 @@ const pathAdmin=require("../../config/system")
 const role=require("./role.router")
 const account=require("./account.router")
 const auth=require("./auth.router")
+const myAccount=require('./my_account.router')
 
 const authMiddleWare=require('../../middleware/auth.middleware')
 
@@ -26,4 +27,7 @@ module.exports=(app)=>{
             account)
         app.use(pathAdmin.prefixAdmin + "/auth",
             auth)
+        app.use(pathAdmin.prefixAdmin + "/my_account",
+            authMiddleWare.requiredAuth,
+            myAccount)
     }

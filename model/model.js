@@ -11,6 +11,7 @@ const mongooseSchema =new mongoose.Schema({
     discountPercentage:Number,
     rating:Number,
     stock:Number,
+    featured:String,
     weight:Number,
     slug:{  type:String,
             slug: "title",unique: true},

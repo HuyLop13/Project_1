@@ -1,6 +1,10 @@
 extends ../../layout/default.pug
-
+include ../../mixins/mixins.pug
+include ../../mixins/viewProduct.pug
 block main 
-    p.
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quam ab, omnis quaerat eveniet laboriosam tempore expedita, 
-        commodi deleniti exercitationem laudantium nisi quisquam voluptatum veritatis eius quo necessitatibus? Repellat, magni inventore.
+    .container.my-3
+        .row
+            .col-12
+                .box-head
+                    +box-mixins("Sản Phẩm Nổi Bật")
+        +viewProduct(features)
