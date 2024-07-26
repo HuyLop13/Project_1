@@ -7,6 +7,7 @@ const mongooseSchema =new mongoose.Schema({
     title:String,
     description:String,
     category:String,
+    parent_id:{type:String,default:""},
     price:Number,
     discountPercentage:Number,
     rating:Number,

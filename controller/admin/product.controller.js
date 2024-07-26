@@ -4,6 +4,8 @@ const searchHelper=require("../../helper/search")
 const paginationHelper=require("../../helper/pagination")
 const systemConfig=require("../../config/system")
 const Account=require('../../model/account.model')
+const ProductCategory=require('../../model/model.product.category')
+const createTree=require('../../helper/createTree')
 
 module.exports.product=async (req, res)=>{
     const filterStatus=filterStatusHelper(req.query);
@@ -105,9 +107,14 @@ module.exports.deleteItem= async(req, res)=>{
 }
 //end Delete one item
 // Create
-module.exports.create=(req,res)=>{
+module.exports.create=async(req,res)=>{
+    const productCategory=await ProductCategory.find({deleted:false,
+    })
+    const newRecord=createTree(productCategory)
     res.render("admin/pages/products/create",{
-        titlePage:"Thêm mới sản phẩm"})
+        titlePage:"Thêm mới sản phẩm",
+        newRecord:newRecord,
+    })
 }
 //End  Create
 
@@ -126,7 +133,9 @@ module.exports.createPost=async(req,res)=>{
     }else{
         req.body.position=parseInt(req.body.position)
     }
-     const creatProduct=new Product(req.body)
+ 
+
+    const creatProduct=new Product(req.body)
     await creatProduct.save()
     res.redirect(`${systemConfig.prefixAdmin}/product`)
     req.flash('success', 'Cập nhật thành công');
@@ -141,9 +150,13 @@ module.exports.edit=async (req,res)=>{
             _id:req.params.id
         }
         const product=await Product.findOne(find)
+        const productCategory=await ProductCategory.find({deleted:false,
+        })
+        const newRecord=createTree(productCategory)
         res.render("admin/pages/products/edit",{
             titlePage:"Chỉnh sửa sản phẩm",
-            product:product    
+            product:product ,
+            newRecord:newRecord   
         })
     }catch(error){
         res.redirect("back")
